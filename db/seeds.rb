@@ -7,3 +7,15 @@
 #   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
+
+fail "Can't seed #{Rails.env}" unless Rails.env.development?
+
+ApplicationRecord.transaction do
+  User.destroy_all
+
+  1000.times do
+    User.create! do |user|
+      user.name = Faker::Name.name
+    end
+  end
+end

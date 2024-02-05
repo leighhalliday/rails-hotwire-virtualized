@@ -1,0 +1,6 @@
+<div class="container">
+  <form method="get" action="<%= users_path %>" class="flex" data-turbo-action="advance" data-turbo-frame="users">
+    <input type="text" name="q[name_cont]" value="<%= params.dig(:q, :name_cont)%>" placeholder="name">
+    <button type="submit">Search</button>
+  </form>
+</div>

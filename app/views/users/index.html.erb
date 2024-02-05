@@ -1,0 +1,36 @@
+<% if @users.present? %>
+  <% @users.each do |user| %>
+    <turbo-stream action="v-replace" target="<%= user.id %>">
+      <template>
+        <%= render "user", user: user %>
+      </template>
+    </turbo-stream>
+  <% end %>
+<% else %>
+  <%= render "search" %>
+
+  <turbo-frame id="users">
+    <div
+      class="container"
+      data-controller="virtualized"
+      data-virtualized-row-height-value="50"
+      data-virtualized-url-value="/users"
+      data-virtualized-ids-value="<%= @user_ids.to_json %>"
+      data-virtualized-debug-value="true"
+    >
+      <template data-virtualized-target="placeholder">
+        <li>Loading...</li>
+      </template>
+
+      <% @preloaded_users.each do |user| %>
+        <template data-virtualized-target="preloaded" data-preloaded-id="<%= user.id %>">
+          <%= render "user", user: user %>
+        </template>
+      <% end %>
+
+      <div style="height: 400px">
+        <ul data-virtualized-target="content"></ul>
+      </div>
+    </div>
+  </turbo-frame>
+<% end %>
